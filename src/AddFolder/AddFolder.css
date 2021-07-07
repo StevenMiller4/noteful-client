@@ -1,0 +1,18 @@
+.folder__creation {
+    color: #bdbdbd;
+}
+
+.registration__button {
+    background-color: #cacaca;
+    color: black;
+    border-radius: 30px;
+    border: 0;
+    font-size: 12px;
+    font-weight: bold;
+    height: 60px;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    width: 60px;
+    display: block;
+}
