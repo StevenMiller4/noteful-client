@@ -5,7 +5,7 @@ import ValidationError from '../ValidationError'
 import config from '../config'
 import './AddNote.css'
 
-export default class AddNote extends Component {
+class AddNote extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -102,3 +102,5 @@ export default class AddNote extends Component {
     )
   }
 }
+
+export default AddNote;
