@@ -1,10 +1,20 @@
 import React, { Component } from 'react'
 import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
+import ValidationError from '../ValidationError'
 import config from '../config'
 import './AddNote.css'
 
 export default class AddNote extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: {
+        value: "",
+        touched: false
+      }
+    }
+  }
   static defaultProps = {
     history: {
       push: () => { }
@@ -41,8 +51,17 @@ export default class AddNote extends Component {
       })
   }
 
+  /*validateNote() {
+    const noteName = this.state.name.value.trim();
+    if (noteName.length === 0) {
+      return 'Name is required.';
+    }
+  }*/
+
   render() {
     const { folders=[] } = this.context
+    //const nameError = this.validateNote();
+
     return (
       <section className='AddNote'>
         <h2>Create a note</h2>
@@ -52,6 +71,7 @@ export default class AddNote extends Component {
               Name
             </label>
             <input type='text' id='note-name-input' name='note-name' />
+            {/*this.state.name.touched && <ValidationError message={nameError} />*/}
           </div>
           <div className='field'>
             <label htmlFor='note-content-input'>

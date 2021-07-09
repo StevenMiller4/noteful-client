@@ -7,6 +7,7 @@ import NoteListMain from '../NoteListMain/NoteListMain'
 import NotePageMain from '../NotePageMain/NotePageMain'
 import AddFolder from '../AddFolder/AddFolder'
 import AddNote from '../AddNote/AddNote'
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import ApiContext from '../ApiContext'
 import config from '../config'
 import './App.css'
@@ -68,26 +69,28 @@ class App extends Component {
   renderNavRoutes() {
     return (
       <>
-        {['/', '/folder/:folderId'].map(path =>
+        <ErrorBoundary>
+          {['/', '/folder/:folderId'].map(path =>
+            <Route
+              exact
+              key={path}
+              path={path}
+              component={NoteListNav}
+            />
+          )}
           <Route
-            exact
-            key={path}
-            path={path}
-            component={NoteListNav}
+            path='/note/:noteId'
+            component={NotePageNav}
           />
-        )}
-        <Route
-          path='/note/:noteId'
-          component={NotePageNav}
-        />
-        <Route
-          path='/add-folder'
-          component={NotePageNav}
-        />
-        <Route
-          path='/add-note'
-          component={NotePageNav}
-        />
+          <Route
+            path='/add-folder'
+            component={NotePageNav}
+          />
+          <Route
+            path='/add-note'
+            component={NotePageNav}
+          />
+        </ErrorBoundary>
       </>
     )
   }
@@ -107,14 +110,18 @@ class App extends Component {
           path='/note/:noteId'
           component={NotePageMain}
         />
-        <Route
-          path='/add-folder'
-          component={AddFolder}
-        />
-        <Route
-          path='/add-note'
-          component={AddNote}
-        />
+        <ErrorBoundary>
+          <Route
+            path='/add-folder'
+            component={AddFolder}
+          />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <Route
+            path='/add-note'
+            component={AddNote}
+          />
+        </ErrorBoundary>
       </>
     )
   }
