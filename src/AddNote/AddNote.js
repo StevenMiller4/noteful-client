@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, } from 'react'
 import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
-import ValidationError from '../ValidationError'
 import config from '../config'
 import './AddNote.css'
 
@@ -9,10 +8,8 @@ class AddNote extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: {
-        value: "",
-        touched: false
-      }
+      title: '',
+      content: ''
     }
   }
   static defaultProps = {
@@ -22,45 +19,48 @@ class AddNote extends Component {
   }
   static contextType = ApiContext;
 
+  handleChange = e => {
+    const { value } = e.target;
+    this.setState({
+      title: value
+    });
+  };
+  
   handleSubmit = e => {
-    e.preventDefault()
-    const newNote = {
-      name: e.target['note-name'].value,
-      content: e.target['note-content'].value,
-      folderId: e.target['note-folder-id'].value,
-      modified: new Date(),
-    }
-    fetch(`${config.API_ENDPOINT}/notes`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(newNote),
-    })
+    e.preventDefault();
+    if (this.state.title === '') {
+      alert('Error, cannot leave Title blank.');
+    } else {
+      const newNote = {
+        name: e.target['note-name'].value,
+        content: e.target['note-content'].value,
+        folderId: e.target['note-folder-id'].value,
+        modified: new Date(),
+      }
+      fetch(`${config.API_ENDPOINT}/notes`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(newNote),
+      })
       .then(res => {
         if (!res.ok)
           return res.json().then(e => Promise.reject(e))
-        return res.json()
+          return res.json()
       })
       .then(note => {
         this.context.addNote(note)
         this.props.history.push(`/folder/${note.folderId}`)
       })
       .catch(error => {
-        console.error({ error })
+        console.log(error);
       })
-  }
-
-  /*validateNote() {
-    const noteName = this.state.name.value.trim();
-    if (noteName.length === 0) {
-      return 'Name is required.';
     }
-  }*/
+  } 
 
   render() {
     const { folders=[] } = this.context
-    //const nameError = this.validateNote();
 
     return (
       <section className='AddNote'>
@@ -70,8 +70,7 @@ class AddNote extends Component {
             <label htmlFor='note-name-input'>
               Name
             </label>
-            <input type='text' id='note-name-input' name='note-name' />
-            {/*this.state.name.touched && <ValidationError message={nameError} />*/}
+            <input type='text' id='note-name-input' name='note-name' value={this.state.title} onChange={this.handleChange} />
           </div>
           <div className='field'>
             <label htmlFor='note-content-input'>
