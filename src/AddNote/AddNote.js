@@ -3,7 +3,7 @@ import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import config from '../config'
 import './AddNote.css'
-//import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 class AddNote extends Component {
 
@@ -37,6 +37,13 @@ class AddNote extends Component {
       content: value
     });
   };
+
+  handleFolderChange = e => {
+    const { value } = e.target;
+    this.setState({
+      folderId: value
+    });
+  }
   
   handleSubmit = e => {
     e.preventDefault();
@@ -69,7 +76,7 @@ class AddNote extends Component {
 
   render() {
     const { folders=[] } = this.context
-    const isEnabled = this.state.title.length > 0 && this.state.content.length >0;
+    const isEnabled = this.state.title.length > 0 && this.state.content.length >0 && this.state.folderId !== null;
 
     return (
       <section className='AddNote'>
@@ -86,13 +93,13 @@ class AddNote extends Component {
             <label htmlFor='note-content-input'>
               Content *
             </label>
-            <textarea id='note-content-input' name='note-content' value={this.state.content} onChange={this.handleContentChange}/>
+            <textarea id='note-content-input' name='note-content' value={this.state.content} onChange={this.handleContentChange} />
           </div>
           <div className='field'>
             <label htmlFor='note-folder-select'>
               Folder *
             </label>
-            <select id='note-folder-select' name='note-folder-id' >
+            <select id='note-folder-select' name='note-folder-id' onChange={this.handleFolderChange} >
               <option value={null}>...</option>
               {folders.map(folder =>
                 <option key={folder.id} value={folder.id}>
@@ -112,8 +119,8 @@ class AddNote extends Component {
   }
 }
 
-/*AddNote.propTypes = {
-  
-}*/
+AddNote.propTypes = {
+  history: PropTypes.object.isRequired
+}
 
 export default AddNote;

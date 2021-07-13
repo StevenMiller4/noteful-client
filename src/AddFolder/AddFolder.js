@@ -3,8 +3,9 @@ import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import config from '../config'
 import './AddFolder.css'
+import PropTypes from 'prop-types'
 
-export default class AddFolder extends Component {
+class AddFolder extends Component {
   static defaultProps = {
     history: {
       push: () => { }
@@ -59,3 +60,9 @@ export default class AddFolder extends Component {
     )
   }
 }
+
+AddFolder.propTypes = {
+  history: PropTypes.object.isRequired
+}
+
+export default AddFolder;
