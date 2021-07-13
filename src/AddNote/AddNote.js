@@ -3,7 +3,7 @@ import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import config from '../config'
 import './AddNote.css'
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
 
 class AddNote extends Component {
 
@@ -112,8 +112,8 @@ class AddNote extends Component {
   }
 }
 
-AddNote.propTypes = {
+/*AddNote.propTypes = {
   
-}
+}*/
 
 export default AddNote;
