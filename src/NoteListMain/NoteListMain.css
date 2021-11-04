@@ -10,10 +10,16 @@
   margin: 0 10px;
 }
 
-.NoteListMain__add-note-button {
+.NoteListMain__add-note-button, .NoteListMain__delete-folder-button {
   margin: 0 auto 20px;
 }
+
 .NoteListMain__add-note-button:hover {
   background-color: #29862e;
+  color: white;
+}
+
+.NoteListMain__delete-folder-button:hover {
+  background-color: red;
   color: white;
 }

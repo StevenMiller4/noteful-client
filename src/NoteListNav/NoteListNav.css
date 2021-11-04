@@ -43,3 +43,18 @@
   float: right;
   font-size: 10px;
 }
+
+.NoteListNav__edit-folder-button {
+  margin: 0 auto 20px;
+  border-radius: 20px;
+  height: 35px;
+  width: 35px;
+  display: block;
+  color: black;
+}
+
+.NoteListNav__edit-folder-button:hover {
+  background-color: #29862e;
+  color: white;
+  cursor: pointer;
+}

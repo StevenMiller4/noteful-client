@@ -6,6 +6,7 @@ import ApiContext from '../ApiContext'
 import config from '../config'
 import './Note.css'
 import PropTypes from 'prop-types'
+import CircleButton from '../CircleButton/CircleButton'
 
 class Note extends React.Component {
   static defaultProps ={
@@ -23,18 +24,13 @@ class Note extends React.Component {
         'content-type': 'application/json'
       },
     })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
-        return res.json()
-      })
-      .then(() => {
-        this.context.deleteNote(noteId)
-        this.props.onDeleteNote(noteId)
-      })
-      .catch(error => {
-        console.error({ error })
-      })
+    .then(() => {
+      this.context.deleteNote(noteId)
+      this.props.onDeleteNote(noteId)
+    })
+    .catch(error => {
+      console.error({ error })
+    })
   }
 
   render() {
@@ -55,6 +51,14 @@ class Note extends React.Component {
           {' '}
           remove
         </button>
+          <CircleButton
+            tag={Link}
+            to={`/note/${id}`}
+            type='button'
+            className='NoteListMain__edit-note-button'
+          >
+            <FontAwesomeIcon icon='edit' />
+          </CircleButton>
         <div className='Note__dates'>
           <div className='Note__dates-modified'>
             Modified
@@ -71,7 +75,7 @@ class Note extends React.Component {
 
 Note.propTypes = {
   name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   modified: PropTypes.string.isRequired,
   onDeleteNote: PropTypes.func.isRequired
 };

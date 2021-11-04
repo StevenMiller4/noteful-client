@@ -7,6 +7,8 @@ import NoteListMain from '../NoteListMain/NoteListMain'
 import NotePageMain from '../NotePageMain/NotePageMain'
 import AddFolder from '../AddFolder/AddFolder'
 import AddNote from '../AddNote/AddNote'
+import EditFolderForm from '../EditFolderForm/EditFolderForm'
+import EditNoteForm from '../EditNoteForm/EditNoteForm'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import ApiContext from '../ApiContext'
 import config from '../config'
@@ -24,6 +26,7 @@ class App extends Component {
       fetch(`${config.API_ENDPOINT}/folders`)
     ])
       .then(([notesRes, foldersRes]) => {
+
         if (!notesRes.ok)
           return notesRes.json().then(e => Promise.reject(e))
         if (!foldersRes.ok)
@@ -59,6 +62,12 @@ class App extends Component {
       ]
     })
   }
+  
+  handleDeleteFolder = folder_id => {
+    this.setState({
+      folders: this.state.folders.filter(folder => folder.id !== folder_id)
+    })
+  }
 
   handleDeleteNote = noteId => {
     this.setState({
@@ -70,7 +79,7 @@ class App extends Component {
     return (
       <>
         <ErrorBoundary>
-          {['/', '/folder/:folderId'].map(path =>
+          {['/', '/folder/:folder_id'].map(path =>
             <Route
               exact
               key={path}
@@ -90,6 +99,14 @@ class App extends Component {
             path='/add-note'
             component={NotePageNav}
           />
+          <Route
+            path='/folders/:folder_id'
+            component={EditFolderForm}
+          />
+          <Route
+            path='/note/:noteId'
+            component={EditNoteForm}
+          />
         </ErrorBoundary>
       </>
     )
@@ -98,7 +115,7 @@ class App extends Component {
   renderMainRoutes() {
     return (
       <>
-        {['/', '/folder/:folderId'].map(path =>
+        {['/', '/folder/:folder_id'].map(path =>
           <Route
             exact
             key={path}
@@ -126,13 +143,32 @@ class App extends Component {
     )
   }
 
+  updateFolder = updatedFolder => {
+    this.setState({
+      folders: this.state.folders.map(folder =>
+        (folder.id !== updatedFolder.id) ? folder : updatedFolder
+      )
+    })
+  };
+
+  updateNote = updatedNote => {
+    this.setState({
+      notes: this.state.notes.map(note => 
+        (note.id !== updatedNote.id) ? note : updatedNote
+      )
+    })
+  };
+
   render() {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
       addFolder: this.handleAddFolder,
       addNote: this.handleAddNote,
+      deleteFolder: this.handleDeleteFolder,
       deleteNote: this.handleDeleteNote,
+      updateFolder: this.updateFolder,
+      updateNote: this.updateNote,
     }
     return (
       <ApiContext.Provider value={value}>

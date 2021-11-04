@@ -53,3 +53,19 @@
   font-size: 14px;
   position: absolute;
 }
+
+.NoteListMain__edit-note-button {
+  margin: 0 auto 20px;
+  border-radius: 20px;
+  height: 35px;
+  width: 35px;
+  display: block;
+  color: black;
+  float: right;
+}
+
+.NoteListMain__edit-note-button:hover {
+  background-color: #29862e;
+  color: white;
+  cursor: pointer;
+}

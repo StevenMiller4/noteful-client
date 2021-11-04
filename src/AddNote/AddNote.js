@@ -1,4 +1,4 @@
-import React, { Component, } from 'react'
+import React, { Component } from 'react'
 import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import config from '../config'
@@ -12,7 +12,7 @@ class AddNote extends Component {
     this.state = {
       title: '',
       content: '',
-      folderId: null
+      folder_id: null
     }
   }
 
@@ -21,7 +21,6 @@ class AddNote extends Component {
       push: () => { }
     },
   }
-
   static contextType = ApiContext;
 
   handleTitleChange = e => {
@@ -41,7 +40,7 @@ class AddNote extends Component {
   handleFolderChange = e => {
     const { value } = e.target;
     this.setState({
-      folderId: value
+      folder_id: value
     });
   }
   
@@ -50,8 +49,7 @@ class AddNote extends Component {
     const newNote = {
       name: e.target['note-name'].value,
       content: e.target['note-content'].value,
-      folderId: e.target['note-folder-id'].value,
-      modified: new Date(),
+      folder_id: e.target['note-folder-id'].value,
     }
     fetch(`${config.API_ENDPOINT}/notes`, {
       method: 'POST',
@@ -63,11 +61,11 @@ class AddNote extends Component {
     .then(res => {
       if (!res.ok)
         return res.json().then(e => Promise.reject(e))
-        return res.json()
+      return res.json()
     })
     .then(note => {
       this.context.addNote(note)
-      this.props.history.push(`/folder/${note.folderId}`)
+      this.props.history.push(`/folder/${note.folder_id}`)
     })
     .catch(error => {
       console.log(error);
@@ -76,28 +74,25 @@ class AddNote extends Component {
 
   render() {
     const { folders=[] } = this.context
-    const isEnabled = this.state.title.length > 0 && this.state.content.length >0 && this.state.folderId !== null;
-
     return (
       <section className='AddNote'>
         <h2>Create a Note</h2>
-        <p>* is required</p>
         <NotefulForm onSubmit={this.handleSubmit}>
           <div className='field'>
             <label htmlFor='note-name-input'>
-              Name *
+              Name
             </label>
             <input type='text' id='note-name-input' name='note-name' value={this.state.title} onChange={this.handleTitleChange} />
           </div>
           <div className='field'>
             <label htmlFor='note-content-input'>
-              Content *
+              Content
             </label>
             <textarea id='note-content-input' name='note-content' value={this.state.content} onChange={this.handleContentChange} />
           </div>
           <div className='field'>
             <label htmlFor='note-folder-select'>
-              Folder *
+              Folder
             </label>
             <select id='note-folder-select' name='note-folder-id' onChange={this.handleFolderChange} >
               <option value={null}>...</option>
@@ -109,7 +104,7 @@ class AddNote extends Component {
             </select>
           </div>
           <div className='buttons'>
-            <button type='submit' disabled={!isEnabled}>
+            <button type='submit'>
               Add note
             </button>
           </div>
