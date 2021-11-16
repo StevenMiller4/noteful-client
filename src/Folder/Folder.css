@@ -1,0 +1,69 @@
+.Folder__add-folder-button:hover {
+    background-color: #29862e;
+    color: white;
+}
+  
+.Folder__folder-link {
+    background-color: #030f1f;
+    color: #b5b3b3;
+    display: block;
+    font-family: var(--custom-font);
+    font-size: 20px;
+    margin: 0 0 8px auto;
+    max-width: 180px;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+  
+.Folder__folder-link:hover {
+    color: #FFB72F;
+    cursor: pointer;
+}
+  
+.Folder__folder-link.active {
+    background-color: #102541;
+}
+  
+.Folder__num-notes {
+    color: #adadad;
+    display: block;
+    float: right;
+    font-size: 10px;
+}
+  
+.Folder__edit-folder-button {
+    margin: 0 auto 20px;
+    border-radius: 20px;
+    height: 35px;
+    width: 35px;
+    display: block;
+    color: black;
+}
+  
+.Folder__edit-folder-button:hover {
+    background-color: #29862e;
+    color: white;
+    cursor: pointer;
+}
+
+.Folder__delete {
+    --note-button-height: 32px;
+    background-color: #041a3a;
+    border: 0;
+    color: #bdbcbc;
+    float: right;
+    font-size: 12px;
+    height: var(--note-button-height);
+    position: relative;
+    top: calc((var(--note-button-height) + 32px) * -1);
+    transform-origin: right bottom;
+    transform: rotate(-90deg);
+    width: calc(var(--note-height));
+}
+
+.Folder__delete:hover {
+    background-color: #bd0909;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}

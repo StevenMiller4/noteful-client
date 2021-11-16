@@ -100,10 +100,6 @@ class App extends Component {
             component={NotePageNav}
           />
           <Route
-            path='/folders/:folder_id'
-            component={EditFolderForm}
-          />
-          <Route
             path='/note/:noteId'
             component={EditNoteForm}
           />
@@ -139,6 +135,10 @@ class App extends Component {
             component={AddNote}
           />
         </ErrorBoundary>
+        <Route
+              path='/folder/:folder_id'
+              component={EditFolderForm}
+        />
       </>
     )
   }

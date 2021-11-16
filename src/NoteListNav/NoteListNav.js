@@ -1,11 +1,10 @@
 import React from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
 import ApiContext from '../ApiContext'
-import { countNotesForFolder } from '../notes-helpers'
 import './NoteListNav.css'
-import config from '../config'
+import Folder from '../Folder/Folder'
 
 export default class NoteListNav extends React.Component {
   static defaultProps ={
@@ -16,26 +15,6 @@ export default class NoteListNav extends React.Component {
 
   static contextType = ApiContext;
 
-  handleClickDelete = e => {
-    e.preventDefault()
-    const folder_id = e.target.parentNode.id
-    console.log(e.target)
-
-    fetch(`${config.API_ENDPOINT}/folders/${folder_id}`, {
-      method: 'DELETE',
-      headers: {
-        'content-type': 'application/json'
-      },
-    })
-    .then(() => {
-      this.context.deleteFolder(folder_id)
-      this.props.history.push('/')
-    })
-    .catch(error => {
-      console.error({ error })
-    })
-  }
-
   render() {
     const { folders=[], notes=[] } = this.context
     return (
@@ -43,35 +22,11 @@ export default class NoteListNav extends React.Component {
         <ul className='NoteListNav__list'>
           {folders.map(folder =>
             <li key={folder.id}>
-              <NavLink
-                className='NoteListNav__folder-link'
-                to={`/folder/${folder.id}`}
-              >
-                <span className='NoteListNav__num-notes'>
-                  {countNotesForFolder(notes, folder.id)}
-                </span>
-                {folder.name}
-              </NavLink>
-              <br />
-              <button
-                className='Note__delete'
-                type='button'
+              <Folder
                 id={folder.id}
-                onClick={this.handleClickDelete}
-              >
-                <span>Delete</span>
-              </button>
-              <div className='NoteListMain__button-container'>
-                <CircleButton
-                  tag={Link}
-                  to={`/folders/${folder.id}`}
-                  type='button'
-                  className='NoteListNav__edit-folder-button'
-                >
-                  <FontAwesomeIcon icon='edit' />
-                  <br />
-                </CircleButton>
-              </div>
+                name={folder.name}
+                notes={notes}
+              />
             </li>
           )}
         </ul>

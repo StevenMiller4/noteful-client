@@ -48,10 +48,11 @@ class EditNoteForm extends Component {
     const newNote = {
       name: e.target['name'].value,
       content: e.target['content'].value,
-      folder_id: e.target['note-folder-id'].value,
+      folder_id: Number(e.target['note-folder-id'].value),
       id: Number(noteId),
       date_modified: new Date()
     }
+    
     const url = config.API_ENDPOINT + `/notes/${noteId}`;
     fetch(url, {
       method: 'PATCH',

@@ -2,9 +2,10 @@ h2 {
     color: #bdbdbd;
 }
 
-.EditFolderForm {
+.EditFolder {
     background-color: #102541;
     grid-area: main;
     height: calc(100vh - 120px);
     overflow: auto;
+    position: relative;
 }
