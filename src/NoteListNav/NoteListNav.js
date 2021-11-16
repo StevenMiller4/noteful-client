@@ -16,14 +16,10 @@ export default class NoteListNav extends React.Component {
 
   static contextType = ApiContext;
 
-  // implement a refresh page in order to clear any associated notes with the deleted folder
-  refreshPage() {
-    window.location.reload(false);
-  }
-
   handleClickDelete = e => {
     e.preventDefault()
-    const folder_id = Number(this.props.match.params.folder_id)
+    const folder_id = e.target.parentNode.id
+    console.log(e.target)
 
     fetch(`${config.API_ENDPOINT}/folders/${folder_id}`, {
       method: 'DELETE',
@@ -34,7 +30,6 @@ export default class NoteListNav extends React.Component {
     .then(() => {
       this.context.deleteFolder(folder_id)
       this.props.history.push('/')
-      this.refreshPage()
     })
     .catch(error => {
       console.error({ error })
@@ -61,10 +56,10 @@ export default class NoteListNav extends React.Component {
               <button
                 className='Note__delete'
                 type='button'
+                id={folder.id}
                 onClick={this.handleClickDelete}
               >
-                <FontAwesomeIcon icon='trash-alt' />
-                {' '}
+                <span>Delete</span>
               </button>
               <div className='NoteListMain__button-container'>
                 <CircleButton

@@ -5,6 +5,16 @@ import config from '../config'
 import './EditFolderForm.css'
 
 class EditFolderForm extends Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+          name: '',
+          id: '',
+          error: null,
+        }
+    }
+    
     static propTypes = {
         match: PropTypes.shape({
             params: PropTypes.object,
@@ -16,12 +26,6 @@ class EditFolderForm extends Component {
 
     static contextType = ApiContext;
 
-    state = {
-        error: null,
-        id: '',
-        name: '',
-    };
-
     handleNameChange = e => {
         this.setState({ name: e.target.value })
     }
@@ -29,8 +33,10 @@ class EditFolderForm extends Component {
     handleSubmit = e => {
         e.preventDefault()
         const { folder_id } = this.props.match.params
-        const { id, name } = this.state
-        const newFolder = { id, name }
+        const newFolder = {
+            name: e.target['name'].value,
+            id: Number(folder_id),
+        }
         const url = config.API_ENDPOINT + `/folders/${folder_id}`;
         fetch(url, {
             method: 'PATCH',
@@ -40,12 +46,10 @@ class EditFolderForm extends Component {
             },
         })
         .then(res => {
-            console.log(res)
             if (!res.ok)
                 return res.json().then(error => Promise.reject(error))
         })
         .then(() => {
-            console.log(newFolder)
             this.resetFields(newFolder)
             this.context.updateFolder(newFolder)
             this.props.history.push('/')
@@ -68,7 +72,7 @@ class EditFolderForm extends Component {
     }
 
     render() {
-        const { error, name } = this.state
+        const { error } = this.state
         return (
             <section className='EditFolder'>
                 <h2>Edit Folder</h2>
@@ -84,7 +88,7 @@ class EditFolderForm extends Component {
                         name='id'
                     />
                     <div>
-                        <label htmlFor='title'>
+                        <label htmlFor='name'>
                             Name
                             {' '}
                         </label>
@@ -94,7 +98,7 @@ class EditFolderForm extends Component {
                             id='name'
                             placeholder='Folder name'
                             required
-                            value={name}
+                            value={this.state.name}
                             onChange={this.handleNameChange}
                         />
                     </div>
